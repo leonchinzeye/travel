@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fukuoka & Kyushu · June 2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;800&family=DM+Sans:ital,wght@0,300;0,400;1,300&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --warm: #c8a96e;
+    --red: #b5341c;
+    --mist: #d6cfc3;
+    --green: #3d5a47;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  header {
+    padding: 60px 48px 40px;
+    border-bottom: 1px solid var(--mist);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .trip-label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+
+  h1 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(48px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 0.9;
+    color: var(--ink);
+  }
+
+  h1 span {
+    display: block;
+    color: var(--warm);
+  }
+
+  .jp-text {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 72px;
+    color: var(--mist);
+    line-height: 1;
+    text-align: right;
+    user-select: none;
+  }
+
+  .trip-meta {
+    display: flex;
+    gap: 32px;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--mist);
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .meta-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm);
+  }
+
+  .meta-value {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  .dates-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 14px 48px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    overflow-x: auto;
+    flex-wrap: wrap;
+    row-gap: 6px;
+  }
+
+  .dates-bar-item { white-space: nowrap; }
+  .dates-bar-sep { color: var(--warm); flex-shrink: 0; }
+
+  .status-strip {
+    padding: 20px 48px;
+    background: rgba(200,169,110,0.08);
+    border-bottom: 1px solid var(--mist);
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  .status-dot.pending { background: var(--mist); }
+
+  main {
+    padding: 60px 48px;
+    max-width: 1000px;
+  }
+
+  .section-title {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-bottom: 40px;
+  }
+
+  .timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 120px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--mist) 5%, var(--mist) 95%, transparent);
+  }
+
+  .segment {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0 40px;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .segment:nth-child(1) { animation-delay: 0.1s; }
+  .segment:nth-child(2) { animation-delay: 0.25s; }
+  .segment:nth-child(3) { animation-delay: 0.4s; }
+  .segment:nth-child(4) { animation-delay: 0.55s; }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .seg-dates {
+    text-align: right;
+    padding-top: 28px;
+  }
+
+  .seg-date-range {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .seg-month {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm);
+    margin-top: 3px;
+  }
+
+  .seg-nights {
+    font-size: 10px;
+    color: var(--mist);
+    margin-top: 8px;
+  }
+
+  .seg-connector { position: relative; }
+
+  .seg-dot {
+    position: absolute;
+    left: -47px;
+    top: 36px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--warm);
+    border: 2px solid var(--paper);
+    box-shadow: 0 0 0 1px var(--warm);
+  }
+
+  .seg-card {
+    margin: 16px 0;
+    padding: 28px 32px;
+    border: 1px solid var(--mist);
+    background: white;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .seg-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(26,18,8,0.08);
+  }
+
+  .seg-card-label {
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .seg-card-name {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .seg-card-location {
+    font-size: 13px;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .seg-card-location::before {
+    content: '↗';
+    font-size: 10px;
+    color: var(--warm);
+  }
+
+  .drive-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--green);
+    padding: 6px 12px;
+    background: rgba(61,90,71,0.06);
+    border: 1px solid rgba(61,90,71,0.2);
+  }
+
+  .seg-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid var(--mist);
+    color: #777;
+  }
+
+  .tag.highlight {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+  }
+
+  .seg-card-note {
+    margin-top: 14px;
+    font-size: 12px;
+    color: #999;
+    font-style: italic;
+    line-height: 1.6;
+    border-left: 2px solid var(--mist);
+    padding-left: 12px;
+  }
+
+  .daytrips {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .daytrip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: #777;
+    padding: 8px 0;
+    border-top: 1px solid var(--mist);
+  }
+
+  .daytrip-date {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--warm);
+    min-width: 44px;
+    flex-shrink: 0;
+  }
+
+  .daytrip-arrow {
+    color: var(--mist);
+    font-size: 10px;
+    flex-shrink: 0;
+  }
+
+  footer {
+    padding: 40px 48px;
+    border-top: 1px solid var(--mist);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-note { font-size: 11px; color: #aaa; letter-spacing: 0.05em; }
+
+  .footer-stamp {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 13px;
+    color: var(--warm);
+    border: 1px solid var(--warm);
+    padding: 6px 14px;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 600px) {
+    header, main, .status-strip, .dates-bar, footer { padding-left: 24px; padding-right: 24px; }
+    .timeline::before { left: 80px; }
+    .segment { grid-template-columns: 80px 1fr; gap: 0 24px; }
+    .seg-dot { left: -31px; }
+    .jp-text { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div>
+      <div class="trip-label">Journey Plan · June 2025</div>
+      <h1>Fukuoka<span>&amp; Kyushu</span></h1>
+    </div>
+    <div class="jp-text">福岡</div>
+  </div>
+  <div class="trip-meta">
+    <div class="meta-item">
+      <span class="meta-label">Travellers</span>
+      <span class="meta-value">2 Pax</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Arrival</span>
+      <span class="meta-value">3 Jun 2025</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Departure</span>
+      <span class="meta-value">14 Jun · FUK 10:00</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Land SIN</span>
+      <span class="meta-value">14 Jun · 15:00</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-label">Duration</span>
+      <span class="meta-value">11 Nights</span>
+    </div>
+  </div>
+</header>
+
+<div class="dates-bar">
+  <span class="dates-bar-item">3 Jun — Arrive Fukuoka</span>
+  <span class="dates-bar-sep">·</span>
+  <span class="dates-bar-item">8 Jun — Drive to Kurokawa</span>
+  <span class="dates-bar-sep">·</span>
+  <span class="dates-bar-item">10 Jun — Drive to Yufuin</span>
+  <span class="dates-bar-sep">·</span>
+  <span class="dates-bar-item">13 Jun — Back to Fukuoka</span>
+  <span class="dates-bar-sep">·</span>
+  <span class="dates-bar-item">14 Jun — Fly Home</span>
+</div>
+
+<div class="status-strip">
+  <div class="status-item"><div class="status-dot"></div> 9 Hotel Hakata — Confirmed</div>
+  <div class="status-item"><div class="status-dot"></div> Ryokan Sanga — Confirmed</div>
+  <div class="status-item"><div class="status-dot"></div> Airbnb Yufuin — Confirmed</div>
+  <div class="status-item"><div class="status-dot"></div> Hotel Forza Hakata — Confirmed</div>
+  <div class="status-item"><div class="status-dot pending"></div> Rental Car — TBD</div>
+</div>
+
+<main>
+  <div class="section-title">Itinerary Overview</div>
+
+  <div class="timeline">
+
+    <div class="segment">
+      <div class="seg-dates">
+        <div class="seg-date-range">3 – 8<br>Jun</div>
+        <div class="seg-month">June</div>
+        <div class="seg-nights">5 nights</div>
+      </div>
+      <div class="seg-connector">
+        <div class="seg-dot"></div>
+        <div class="seg-card">
+          <div class="seg-card-label">Accommodation · Confirmed</div>
+          <div class="seg-card-name">9 Hotel Hakata</div>
+          <div class="seg-card-location">Hakata, Fukuoka City</div>
+          <div class="seg-card-tags">
+            <span class="tag">City Base</span>
+            <span class="tag">Hakata Station Area</span>
+            <span class="tag highlight">Confirmed</span>
+          </div>
+          <div class="seg-card-note">5 nights in Fukuoka — explore Hakata, Tenjin, Ohori Park, and possible day trips to Dazaifu, Itoshima, Karatsu, or Mojiko.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="segment">
+      <div class="seg-dates">
+        <div class="seg-date-range">8 – 10<br>Jun</div>
+        <div class="seg-month">June</div>
+        <div class="seg-nights">2 nights</div>
+      </div>
+      <div class="seg-connector">
+        <div class="seg-dot"></div>
+        <div class="seg-card">
+          <div class="seg-card-label">Ryokan · Confirmed</div>
+          <div class="seg-card-name">Ryokan Sanga</div>
+          <div class="seg-card-location">Kurokawa Onsen, Kumamoto</div>
+          <div class="drive-badge">🚗 Drive from Fukuoka · ~2.5 hrs</div>
+          <div class="seg-card-tags">
+            <span class="tag">Onsen</span>
+            <span class="tag">Kaiseki Dinner</span>
+            <span class="tag">Forest Setting</span>
+            <span class="tag highlight">Confirmed</span>
+          </div>
+          <div class="seg-card-note">Secluded ryokan along a mountain stream. Multiple hot spring baths including open-air and private options. Traditional kaiseki meals included.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="segment">
+      <div class="seg-dates">
+        <div class="seg-date-range">10 – 13<br>Jun</div>
+        <div class="seg-month">June</div>
+        <div class="seg-nights">3 nights</div>
+      </div>
+      <div class="seg-connector">
+        <div class="seg-dot"></div>
+        <div class="seg-card">
+          <div class="seg-card-label">Airbnb · Confirmed</div>
+          <div class="seg-card-name">Yufuin Airbnb</div>
+          <div class="seg-card-location">Yufuin, Oita Prefecture</div>
+          <div class="drive-badge">🚗 Drive from Kurokawa · ~1.5 hrs via Aso Milk Road</div>
+          <div class="seg-card-tags">
+            <span class="tag">Onsen Town</span>
+            <span class="tag">Lake Kinrin</span>
+            <span class="tag highlight">Confirmed</span>
+          </div>
+          <div class="daytrips">
+            <div class="daytrip">
+              <span class="daytrip-date">11 Jun</span>
+              <span class="daytrip-arrow">→</span>
+              <span>Day trip to <strong>Takachiho Gorge</strong> · ~1h40 each way · boat ride in the gorge</span>
+            </div>
+            <div class="daytrip">
+              <span class="daytrip-date">12 Jun</span>
+              <span class="daytrip-arrow">→</span>
+              <span>Day trip to <strong>Beppu</strong> · ~30 min · hells tour, onsen</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="segment">
+      <div class="seg-dates">
+        <div class="seg-date-range">13 – 14<br>Jun</div>
+        <div class="seg-month">June</div>
+        <div class="seg-nights">1 night</div>
+      </div>
+      <div class="seg-connector">
+        <div class="seg-dot"></div>
+        <div class="seg-card">
+          <div class="seg-card-label">Hotel · Confirmed</div>
+          <div class="seg-card-name">Hotel Forza Hakata-eki Chikushi-guchi II</div>
+          <div class="seg-card-location">Hakata Station, Fukuoka City</div>
+          <div class="drive-badge">🚗 Drive from Yufuin · ~2.5 hrs · Return rental car</div>
+          <div class="seg-card-tags">
+            <span class="tag">Near Hakata Station</span>
+            <span class="tag">Flight: FUK 10:00, 14 Jun</span>
+            <span class="tag highlight">Confirmed</span>
+          </div>
+          <div class="seg-card-note">Last night in Fukuoka — easy access to Fukuoka Airport from Hakata Station for the 10am departure on the 14th.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-note">Last updated · May 2026 &nbsp;·&nbsp; 2 travellers &nbsp;·&nbsp; Singapore → Fukuoka &nbsp;·&nbsp; All accommodation confirmed</div>
+  <div class="footer-stamp">福岡 · June 2025</div>
+</footer>
+
+</body>
+</html>
