@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>福岡 / Fukuoka — Storyboard</title>
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --surface: #1a1a1a;
+      --surface2: #222;
+      --border: #2e2e2e;
+      --text: #e8e8e0;
+      --muted: #888;
+      --accent: #c8a96e;
+      --accent2: #5b8fa8;
+      --tag-bg: #1e2a32;
+      --tag-text: #7fc0db;
+      --tip-bg: #1f1c14;
+      --tip-border: #c8a96e55;
+      --gear-bg: #1a1f14;
+      --gear-text: #8fc46e;
+      --gear-border: #3a5a2a;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+      padding: 1.5rem 1rem 4rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .jp-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .en-title {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 0.2rem 0.6rem;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+    }
+
+    .grade-note {
+      margin-top: 1.25rem;
+      background: var(--tip-bg);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      padding: 0.75rem 1rem;
+      font-size: 0.88rem;
+      color: #c8b87e;
+    }
+
+    .grade-note strong { display: block; margin-bottom: 0.2rem; color: var(--accent); }
+
+    h2 {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    .act {
+      margin-bottom: 2.5rem;
+    }
+
+    .act-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .act-number {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+    }
+
+    .act-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .act-time {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .act-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .shot {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+
+    .shot-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .shot-header:hover { background: var(--surface2); }
+
+    .shot-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 24px;
+      opacity: 0.8;
+    }
+
+    .shot-title {
+      flex: 1;
+      font-size: 0.93rem;
+      font-weight: 500;
+    }
+
+    .shot-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .chevron {
+      font-size: 0.7rem;
+      color: var(--muted);
+      transition: transform 0.2s;
+    }
+
+    .shot.open .chevron { transform: rotate(180deg); }
+
+    .shot-body {
+      display: none;
+      padding: 0 1rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .shot.open .shot-body { display: block; }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      margin-top: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.4rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border: 1px solid #2a4a5a;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .tip-box {
+      margin-top: 0.75rem;
+      background: var(--tip-bg);
+      border-left: 2px solid var(--accent);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.82rem;
+      color: #c8b87e;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .gear-box {
+      margin-top: 0.75rem;
+      background: var(--gear-bg);
+      border-left: 2px solid var(--gear-text);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.82rem;
+      border-radius: 0 4px 4px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .gear-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gear-text);
+      white-space: nowrap;
+      padding-top: 0.1rem;
+    }
+
+    .gear-text {
+      color: #b0d89a;
+      font-size: 0.83rem;
+    }
+
+    .gear-text strong {
+      color: var(--gear-text);
+    }
+
+    .tip-box .tip-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+
+    .guidance-text {
+      font-size: 0.87rem;
+      color: #ccc;
+      margin-top: 0.3rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .music-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .music-section h3 {
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .music-section p {
+      font-size: 0.84rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="jp-title">福岡</div>
+  <div class="en-title">Fukuoka — Cinematic Short</div>
+  <div class="meta">
+    <span class="badge">~90 seconds</span>
+    <span class="badge">Cinematic & Moody</span>
+    <span class="badge">16 shots</span>
+    <span class="badge">4 acts</span>
+  </div>
+  <div class="grade-note" style="border-color: var(--gear-text); background: var(--gear-bg); color: #b0d89a; margin-bottom: 0.75rem;">
+    <strong style="color: var(--gear-text);">Your Kit</strong>
+    Osmo Pocket 3 · Osmo Action 4 · Sony A7CII 24-70mm f/2.8 · iPhone 17 Pro Max — each shot below recommends the best tool for the job.
+  </div>
+  <div class="grade-note">
+    <strong>Color Grade Direction</strong>
+    Pull highlights warm (orange/amber) · Push shadows cool (teal/green) · Slightly desaturated midtones. Think Tokyo Drift, not Instagram filter.
+  </div>
+</header>
+
+<!-- ACT 1 -->
+<div class="act">
+  <div class="act-header">
+    <span class="act-number">Act 01</span>
+    <span class="act-title">Arrival</span>
+    <span class="act-time">0:00 – 0:20</span>
+  </div>
+  <p class="act-desc">Establish the place. No rush.</p>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#01</span>
+      <span class="shot-title">Train window — city blurring past</span>
+      <span class="shot-note">motion blur</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Press your phone or camera against the window to reduce vibration. Set shutter speed to 1/30s or slower (double your frame rate rule — if shooting 24fps, go to 1/50 or lower to exaggerate motion blur). Landscape orientation, horizontal. Let the city streak. Don't track anything — stay fixed.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Shutter: 1/30–1/50</span>
+        <span class="tag">Static camera</span>
+        <span class="tag">Wide or normal lens</span>
+        <span class="tag">Shoot through glass</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Osmo Pocket 3</strong> — press it flat against the window, gimbal absorbs train vibration. iPhone works too but Pocket 3 handles the motion blur more cleanly.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Shoot in the direction of travel, not perpendicular — the parallel blur is more cinematic and less nauseating.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#02</span>
+      <span class="shot-title">Feet stepping onto platform</span>
+      <span class="shot-note">ground-level</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Set your camera on the ground or as low as possible, pointing upward at a slight angle. Frame so feet enter from the left and step toward the camera. Have someone film you, or set it up and walk through yourself a few times. The gap between train and platform edge makes a natural leading line.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Low angle / ground level</span>
+        <span class="tag">Wide lens</span>
+        <span class="tag">Look up slightly</span>
+        <span class="tag">Normal shutter</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Osmo Action 4</strong> — built for ground-level, wide angle is perfect here, and it's small enough to set on the platform floor without drawing attention.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Shoot this twice — once with normal timing, once with slow-mo (60fps) for more control in the edit.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#03</span>
+      <span class="shot-title">Hakata Station exterior — golden hour</span>
+      <span class="shot-note">hold 3–4 sec</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Shoot during the 30 minutes before sunset. Cross the street and get far enough back to include the full facade. Use a tripod or set it on a flat surface. Frame symmetrically — the station has a central axis. Hold the shot still for at least 8 seconds in camera so you have room to slow it down or cut leisurely.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Golden hour</span>
+        <span class="tag">Tripod or stable surface</span>
+        <span class="tag">Wide shot</span>
+        <span class="tag">Symmetrical framing</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII 24-70mm</strong> — pull to 24mm, use a tripod or ledge. The sensor handles golden hour dynamic range far better than any of the others. This is your hero wide shot.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Expose for the sky, not the building — a slightly silhouetted station with a warm sky behind it is more dramatic than a flat bright exposure.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#04</span>
+      <span class="shot-title">Narrow alley with lanterns overhead</span>
+      <span class="shot-note">static, let motion happen</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Find one of Fukuoka's covered shopping streets or lantern alleys (Kawabata or Yanagibashi area). Plant your camera at one end looking down the alley — lanterns in foreground, depth receding. Don't follow people. Let them walk through the frame naturally. Shoot for 20–30 seconds and pick the best moment in edit.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Static tripod</span>
+        <span class="tag">Dusk or evening</span>
+        <span class="tag">Normal or slight telephoto</span>
+        <span class="tag">Let subjects pass</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII or Osmo Pocket 3</strong> — Sony for image quality in low lamp light; Pocket 3 if you want to move through the alley smoothly without a tripod. Both work well here.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Shoot when it's lightly busy — not crowded, not empty. A few silhouettes walking in warm lantern light beats a busy crowd.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACT 2 -->
+<div class="act">
+  <div class="act-header">
+    <span class="act-number">Act 02</span>
+    <span class="act-title">The City Breathes</span>
+    <span class="act-time">0:20 – 0:55</span>
+  </div>
+  <p class="act-desc">Layer urban life, food, and culture. This is the heart.</p>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#05</span>
+      <span class="shot-title">Yatai stall — steam rising from ramen bowl</span>
+      <span class="shot-note">backlit, macro or tight</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Position yourself so the light source (lantern, kitchen light) is directly behind the bowl. Get as close as your lens allows — fill the frame with the bowl and steam. Use a flashlight app or have a friend hold one behind to enhance the steam backlight if needed. Film at 60fps and slow down to 24fps in edit for dreamy steam effect.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">60fps → slow-mo</span>
+        <span class="tag">Backlit</span>
+        <span class="tag">Tight / macro</span>
+        <span class="tag">Manual exposure — expose for highlights</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII at f/2.8</strong> — the 70mm end gives you compression and beautiful bokeh on the steam. Nothing else in your kit matches this for the backlit steam look.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Ask the chef politely before filming. Most are happy to let you get a close shot of the bowl right when it's served — the steam is most dramatic in the first 30 seconds.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#06</span>
+      <span class="shot-title">Chef's hands — ladle, broth pour</span>
+      <span class="shot-note">close-up, slow motion</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Film at 60fps or 120fps if possible. Tight frame on just the hands and ladle — no face needed, which makes it less intrusive. Capture the moment the broth hits the bowl and the splash. Side-lit from the kitchen light is ideal. Hold camera steady or rest on the counter edge.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">60–120fps</span>
+        <span class="tag">Extreme close-up</span>
+        <span class="tag">Side-lit</span>
+        <span class="tag">Stabilize on surface</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>iPhone 17 Pro Max</strong> — 120fps in a tight space, discreet, and the macro lens is excellent for hands. Rest it on the counter edge for stability. Sony works too if you have room.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Film multiple pours and picks — you'll cut to a 1–2 second clip in the edit, so volume is your friend here.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#07</span>
+      <span class="shot-title">Canal reflection — Nakasu district at dusk</span>
+      <span class="shot-note">wide, symmetrical</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Find a bridge or bank where you can get low and include both the actual lights and their reflection in one frame. The sweet spot is 20–30 minutes after sunset — sky still has color, city lights are on. Use a tripod. Frame with the waterline roughly centered to emphasize the reflection symmetry.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Blue hour</span>
+        <span class="tag">Tripod essential</span>
+        <span class="tag">Wide lens</span>
+        <span class="tag">Center the waterline</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII on tripod</strong> — blue hour means low light; the A7CII sensor will hold clean shadows where the other cameras will get noisy. 24mm end for the symmetrical wide.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        A slow zoom out (2–3 seconds) from the reflection to the full scene makes a beautiful transition cut. Do a version with slow push-in too.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#08</span>
+      <span class="shot-title">Shrine gate (torii) — looking up</span>
+      <span class="shot-note">silhouette works great</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Stand directly underneath the torii and point your camera straight up, or at a steep upward angle. Expose for the sky — let the gate go dark/silhouette. If it's overcast, this is actually ideal (even light, gate stands out). A slow tilt from the base of the gate up to the top adds movement without needing to walk.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Looking up</span>
+        <span class="tag">Expose for sky</span>
+        <span class="tag">Slow tilt up</span>
+        <span class="tag">Silhouette okay</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Osmo Action 4</strong> — the ultra-wide angle naturally exaggerates the gate's height when pointing up. Alternatively, Sony at 24mm tilted up gives a slightly more controlled, cinematic look.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Sumiyoshi Shrine in Hakata or Kushida Shrine are both accessible and photogenic. Early morning is best — few tourists, soft light.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#09</span>
+      <span class="shot-title">Incense smoke curling at a temple</span>
+      <span class="shot-note">rack focus: smoke → face</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Get close to the incense burner (sensōro). Frame so smoke fills the foreground — then rack focus to someone praying or waving smoke toward themselves in the background. If your camera has manual focus, do a slow pull. If not, tap to focus on the background and let the smoke go soft in front.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Rack focus</span>
+        <span class="tag">Backlit smoke</span>
+        <span class="tag">Wide aperture (f/1.8–f/2.8)</span>
+        <span class="tag">Side or back light</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII at f/2.8</strong> — this shot lives and dies by depth of field. The 70mm end with a wide aperture gives you that dreamy smoke-to-face rack focus. No other camera in your kit can do this shot justice.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Shoot when sun is at a low angle and behind the burner — the smoke becomes luminous and almost magical against a darker background.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#10</span>
+      <span class="shot-title">Busy intersection — slow-mo crowd</span>
+      <span class="shot-note">tripod, wide</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Find a corner or elevated position near Tenjin or Hakata station crossings. Set camera wide and static. Shoot at 60fps for slow-mo playback. Don't follow any one person — let the whole crowd flow. 30 seconds of footage gives you many usable 3–4 second clips. Alternatively, try a long exposure still and add to b-roll.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">60fps slow-mo</span>
+        <span class="tag">Tripod or elevated perch</span>
+        <span class="tag">Wide lens</span>
+        <span class="tag">Static — don't follow</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Osmo Pocket 3</strong> — compact enough to hold up in a crowd without being invasive. Its 60fps slow-mo is smooth and the gimbal handles the urban bustle. iPhone also works if Pocket 3 isn't handy.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Tenjin underground city exits during rush hour (5–7pm) give you great crowd flow with directional light from above.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACT 3 -->
+<div class="act">
+  <div class="act-header">
+    <span class="act-number">Act 03</span>
+    <span class="act-title">Stillness</span>
+    <span class="act-time">0:55 – 1:20</span>
+  </div>
+  <p class="act-desc">Pull back. Find the quiet.</p>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#11</span>
+      <span class="shot-title">Empty early-morning street — soft light</span>
+      <span class="shot-note">golden hour, mist if lucky</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Set your alarm. 6–7am in Fukuoka means streets that were packed at midnight are now near-empty. Look for long straight streets with perspective lines (power lines, shop shutters) leading to the horizon. Shoot static, wide. If there's morning mist or haze, that's a bonus — don't correct it in-camera, let it grade warm later.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Golden hour AM</span>
+        <span class="tag">Static wide</span>
+        <span class="tag">Leading lines</span>
+        <span class="tag">Don't correct haze in-camera</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII</strong> — early morning light is soft and low-contrast; the full-frame sensor renders that haze and warmth beautifully. Use 24mm on a tripod. Osmo Pocket 3 is a decent backup if you're traveling light.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        A lone vending machine glowing in an otherwise quiet street is a very Fukuoka/Japan image. Keep an eye out.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#12</span>
+      <span class="shot-title">Someone eating alone at a yatai counter</span>
+      <span class="shot-note">respectful distance, candid</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Frame from outside the yatai, shooting through the open side. Use a slightly longer focal length (or crop in) so you're not in their personal space. Focus on the scene — bowl, hands, warm light — rather than the face. Don't film someone eating if they seem uncomfortable. A wide shot showing the whole yatai with a single patron is less intrusive and equally powerful.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Telephoto or crop</span>
+        <span class="tag">Outside looking in</span>
+        <span class="tag">Warm artificial light</span>
+        <span class="tag">Candid — don't stage</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>iPhone 17 Pro Max</strong> — the most discreet option by far. Cinematic mode gives you a natural rack focus look if you're shooting from the counter. Don't pull out the Sony here; it draws too much attention.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        If you're eating there yourself, set your camera down on the counter pointed slightly outward — some of the best candid shots come from cameras that blend in.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#13</span>
+      <span class="shot-title">Ocean or park — wide, breathing room</span>
+      <span class="shot-note">Nokonoshima or Seaside Momochi</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Go wide — really wide. You want sky in at least half the frame. Shoot static and just let the world breathe. Ocean with gentle waves, a lone tree in a park, the bridge at Seaside Momochi. This shot is about space and silence after the busyness of Act 2. A very slow zoom out (1cm push back over 5 seconds) works well if handheld.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Ultra wide</span>
+        <span class="tag">Sky dominant</span>
+        <span class="tag">Slow or static</span>
+        <span class="tag">Horizon level</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII at 24mm</strong> — for the wide breathing-room shot. On the ferry, use <strong>Osmo Action 4</strong> (waterproof, stable on a railing mount) to film the skyline receding over water.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Nokonoshima Island ferry ride itself is worth filming — the receding Fukuoka skyline from the water is a unique angle few visitors capture.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#14</span>
+      <span class="shot-title">Close-up detail — leaf, coin, menu</span>
+      <span class="shot-note">abstract, grounding</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">This is a wildcard — collect these throughout the trip. Look for textures, Japanese typography, worn surfaces. A 500-yen coin on a wooden counter. A menu with kanji. A moss-covered stone at a shrine. Get as close as your lens allows, focus on one small area, let everything else blur. Don't overthink it — shoot 10 options and pick the best in edit.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Macro / closest focus</span>
+        <span class="tag">Wide aperture</span>
+        <span class="tag">Shallow depth of field</span>
+        <span class="tag">Collect throughout trip</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII at 70mm f/2.8</strong> — closest focus distance at 70mm gives you a decent macro-like result. The shallow DOF isolates the detail beautifully. Alternatively, iPhone 17 Pro Max macro mode for truly tiny subjects.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Natural textures (wet stone, bamboo, sand) grade beautifully with the warm-shadows palette. Keep an eye out on rainy days especially.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACT 4 -->
+<div class="act">
+  <div class="act-header">
+    <span class="act-number">Act 04</span>
+    <span class="act-title">Exit</span>
+    <span class="act-time">1:20 – 1:30</span>
+  </div>
+  <p class="act-desc">End on movement, not resolution.</p>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#15</span>
+      <span class="shot-title">Train leaving platform — static shot</span>
+      <span class="shot-note">symmetrical if possible</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">Stand at the end of a platform (safely behind the line) and face down the track. Frame symmetrically with the tracks as leading lines. Let the train depart in front of you — you're watching it leave, not boarding. Hold the shot for a few seconds after the train has fully gone. That empty track is the actual closing image.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">End of platform</span>
+        <span class="tag">Symmetrical framing</span>
+        <span class="tag">Static</span>
+        <span class="tag">Hold after train departs</span>
+      </div>
+      <div class="gear-box">
+        <span class="gear-label">Gear</span>
+        <span class="gear-text"><strong>Sony A7CII or Osmo Pocket 3</strong> — Sony at 24mm for the widest symmetrical framing of the tracks. Pocket 3 if you want a smoother handheld hold while waiting for the train to depart.</span>
+      </div>
+      <div class="tip-box">
+        <div class="tip-label">Pro tip</div>
+        Shinkansen departure at Hakata is more dramatic, but any train works. The Nishitetsu lines have a classic Japan rail look if you want something quieter.
+      </div>
+    </div>
+  </div>
+
+  <div class="shot">
+    <div class="shot-header" onclick="toggleShot(this)">
+      <span class="shot-num">#16</span>
+      <span class="shot-title">Black fade — title card (optional)</span>
+      <span class="shot-note">hold 2 sec</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="shot-body">
+      <div class="section-label">How to film</div>
+      <p class="guidance-text">This is done in editing, not in-camera. Fade the last shot to black over 1.5 seconds. Hold on black for 2 seconds. If adding a title card, keep it minimal — white text on black, a Japanese character or the city name, small and centered. The music should fade with it, not cut abruptly.</p>
+      <div class="section-label">Settings</div>
+      <div class="tags">
+        <span class="tag">Edit only</span>
+        <span class="tag">Fade to black 1.5s</span>
+        <span class="tag">Hold 2s</span>
+        <span class="tag">Music fade with it</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Music -->
+<div class="music-section">
+  <h3>🎵 Music Direction</h3>
+  <p>Lo-fi jazz, Japanese city pop instrumental, or something with a single piano line. Nujabes-adjacent. Look for tracks with a slow build — something that peaks around the 0:45–1:00 mark to match the Act 2 energy, then naturally winds down into stillness for Act 3–4.</p>
+</div>
+
+<footer>
+  福岡 2026 · Storyboard for a ~90 second cinematic short
+</footer>
+
+<script>
+  function toggleShot(el) {
+    el.closest('.shot').classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
